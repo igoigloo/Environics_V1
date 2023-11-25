@@ -1,66 +1,56 @@
 import streamlit as st
 import pandas as pd
 import openai
-import fpdf
 
-# Create a Streamlit app with improved design
-st.set_page_config(page_title="Atlas Analytics")
-# Custom CSS to style the app
-st.markdown(
-    """
-    <style>
+# Set page config for better visuals
+st.set_page_config(page_title="Business Insight Generator", layout="wide", page_icon="📊")
+
+# Custom CSS for styling
+custom_css = """
+<style>
+    html, body, [class*="css"] {
+        font-family: 'Arial', sans-serif;
+        background-color: #F7F5F2;
+        color: #333;
+    }
+    h1, h2, h3 {
+        color: #0D2F81;
+    }
     .stButton > button {
-        background-color: #4CAF50;  /* Use green color for the buttons */
+        background-color: #0D2F81;
         color: white;
-        font-weight: bold;
-        border: none;
-        padding: 15px 30px;  /* Larger button */
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 18px;
         border-radius: 5px;
-        cursor: pointer;
+        border: 1px solid #0D2F81;
     }
     .stButton > button:hover {
-        background-color: #45a049;
+        background-color: #0D2F81;
+        opacity: 0.8;
     }
-    .top-banner {
-        border-style: solid;
-        border-color: green;
-        padding: 20px;
-        text-align: center;
+    .st-bb {
+        border-bottom: 2px solid #0D2F81;
     }
-    .banner-title {
-        color: white;  /* Use black for title text color */
-        font-size: 40px;
+    .stTextInput > div > div > input, .stSelectbox > div > div {
+        border-radius: 5px;
     }
-    .banner-description {
-        color: white;  /* Use black for description text color */
-        font-size: 16px;
-    }
-    .stPlotly {
-        background-color: #4CAF50;  /* Use green for Plotly chart background */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+</style>
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
 
 # Initialize session states
 if 'continue_clicked' not in st.session_state:
     st.session_state.continue_clicked = False
-
 if 'user_type' not in st.session_state:
     st.session_state.user_type = None
 
 def welcome_page():
     st.title("Welcome to the Business Insight Generator App!")
-    st.write("This application allows you to upload Excel files and generates business insights based on the data. The insights are generated using OpenAI's GPT-3.")
+    st.markdown("""
+    This application allows you to upload Excel files and generates business insights based on the data.
+    The insights are generated using OpenAI's GPT-3.
+    """, unsafe_allow_html=True)
 
-    # User type selection
-    user_type = st.radio("Select your workplace type:", ('Big Retail Firm', 'Grocery Store', 'Vendor'))
-
+    user_type = st.selectbox("Select your workplace type:", ('Big Retail Firm', 'Grocery Store', 'Vendor'))
+    
     if st.button("Continue"):
         st.session_state.continue_clicked = True
         st.session_state.user_type = user_type
@@ -77,27 +67,17 @@ def process_data_for_openai(dataframes):
     return combined_data.to_string()
 
 def get_openai_insight(prompt, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
-    # Adjust prompt based on user type
     tailored_context = f"As a {user_type}, " + data_context
     full_prompt = f"{tailored_context}\n\n{prompt}\n"
     
     response = openai.Completion.create(
-        engine="text-davinci-003",
+        engine="text-davinci-004",
         prompt=full_prompt,
-        max_tokens=450
+        max_tokens=150
     )
     return response.choices[0].text.strip()
-
-def create_pdf_report(title, content):
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size = 12)
-    pdf.cell(200, 10, txt = title, ln = True, align = 'C')
-    pdf.multi_cell(0, 10, txt = content)
-    return pdf
-
 
 def main():
     if not st.session_state.continue_clicked:
@@ -105,10 +85,8 @@ def main():
     else:
         st.title(f"Business Insight Generator for {st.session_state.user_type}")
 
-        # File uploader for multiple files
         uploaded_files = st.file_uploader("Upload Excel files", type="xlsx", accept_multiple_files=True)
 
-        # Initialize data context
         data_context = ""
         if uploaded_files:
             all_dfs = [read_excel(uploaded_file) for uploaded_file in uploaded_files]
@@ -118,28 +96,58 @@ def main():
         if data_context:
             if st.button("Generate Business Idea"):
                 with st.spinner('Generating business idea...'):
-                    idea = get_openai_insight("Given the detailed demographic data highlighting household population and the breakdown of permanent residents by country of origin, identify a business opportunity that caters to the unique needs and preferences of these diverse groups. Consider creating a service or product that leverages cultural insights and addresses specific demands identified in communities with high concentrations of residents, as indicated in the data. please list off real world things. and make sure to explain in detail how you used the dataset given and what metrics you used to evaluate this", data_context, st.session_state.user_type)
+                    prompt_part1 = get_openai_insight(
+                        "As a chief business strategist, analyze the provided data to identify a business idea "
+                        "that caters specifically to the unique needs and preferences of the selected demographic group. "
+                        "Focus on how the metrics in the dataset reveal specific opportunities or needs within the group. "
+                        "Your initial output should include: "
+                        "1. The name of the business idea. "
+                        "2. A description of the business idea. "
+                        , data_context, st.session_state.user_type
+                    )
+
+                    prompt_part2 = get_openai_insight(
+                        "Continuing with the business idea identified, detail the specific metrics from the dataset that support this idea. "
+                        "Explain how these metrics demonstrate the viability and potential success of the business idea in addressing the "
+                        "needs and preferences of the target demographic group. Include: "
+                        "1. The metrics used from the dataset, specifying with numbers."
+                        , data_context, st.session_state.user_type
+                    )
+
+                    prompt_part3a = get_openai_insight(
+                        "Based on the previously identified business idea, outline the practical steps for implementing this idea "
+                        "within the trade region. Focus on the initial stages of implementation, considering the specific requirements "
+                        "and challenges of the selected trade area. This part should include: "
+                        "1. Practical steps for implementing the business idea in the selected trade area."
+                        , data_context, st.session_state.user_type
+                    )
+
+                    prompt_part3b = get_openai_insight(
+                        "Continuing with the development of the business implementation plan, consider external market factors, trends, "
+                        "and demographic insights that support the viability and success of the business idea. Develop specific strategies "
+                        "to engage with the target demographic group, based on the identified needs and preferences. This part should cover: "
+                        "1. How external market factors, trends, and demographic insights support the viability and success of the business idea. "
+                        "2. Specific strategies to engage with the target demographic group based on the identified needs and preferences."
+                        , data_context, st.session_state.user_type
+                    )
+
+
+                    idea = prompt_part1 + prompt_part2 + prompt_part3a + prompt_part3b
                     st.write("Business Idea:", idea)
-
-
-                    if st.button("Download Idea as PDF"):
-                        pdf = create_pdf_report("Business Idea", idea)
-                        pdf.output("Business_Idea.pdf")
-                        st.download_button("Download PDF", "Business_Idea.pdf")
 
             if st.button("Generate Marketing Strategy"):
                 with st.spinner('Generating marketing strategy...'):
-                    strategy = get_openai_insight("Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities. Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns. Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts. Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate", data_context, st.session_state.user_type)
+                    strategy = get_openai_insight("Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities. Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns. Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts.", data_context, st.session_state.user_type)
                     st.write("Marketing Strategy:", strategy)
 
             if st.button("Identify Best Products/Brands to Launch"):
                 with st.spinner('Identifying best products/brands...'):
-                    products = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill. Please list off real world products and brands. and make sure to explain how you used the dataset given", data_context, st.session_state.user_type)
+                    products = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill. Please list off real world products and brands", data_context, st.session_state.user_type)
                     st.write("Best Products/Brands:", products)
 
             if st.button("Suggest CSR Initiatives"):
                 with st.spinner('Suggesting CSR initiatives...'):
-                    csr = get_openai_insight("and a senior data scientist, perform an indepth analysis of the provded data and summarize each important statistic within a table format. Use external information to help explain insights", data_context, st.session_state.user_type)
+                    csr = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents from India and China. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill.", data_context, st.session_state.user_type)
                     st.write("CSR Initiatives:", csr)
 
 if __name__ == "__main__":
