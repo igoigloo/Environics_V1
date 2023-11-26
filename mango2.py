@@ -78,7 +78,7 @@ def process_data_for_openai(dataframes):
     return combined_data.to_string()
 
 def get_openai_insight(prompt, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Adjust prompt based on user type
     tailored_context = f"As a {user_type}, " + data_context
@@ -90,6 +90,28 @@ def get_openai_insight(prompt, data_context, user_type):
         max_tokens=500
     )
     return response.choices[0].text.strip()
+
+
+def get_openai_insight2(question, data_context, user_type):
+    openai.api_key = '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'
+    
+    # Instructions for a nicely formatted response
+    instructions = (
+        "Please provide a detailed and well-structured answer to the following question. "
+        "Ensure the response is clear, concise, and formatted in a readable manner."
+    )
+
+    # Tailor the context and the question for the prompt
+    tailored_context = f"As a {user_type}, based on the provided data: {data_context}"
+    full_prompt = f"{tailored_context}\n\n{instructions}\n\nQuestion: {question}\n\nAnswer:"
+
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=full_prompt,
+        max_tokens=500
+    )
+    return response.choices[0].text.strip()
+
 
 def save_idea_to_pdf(idea, user_type):
     pdf = FPDF()
@@ -120,11 +142,20 @@ def main():
             all_dfs = [read_excel(uploaded_file) for uploaded_file in uploaded_files]
             data_context = process_data_for_openai(all_dfs)
 
+        # Section for asking questions
+        st.subheader("Ask a Question")
+        user_question = st.text_input("Enter your question based on the data:")
+        if st.button("Get Answer"):
+            with st.spinner('Generating answer...'):
+                # Generate answer using OpenAI based on the user's question and data context
+                answer = get_openai_insight2(user_question, data_context, st.session_state.user_type)
+                st.write("Answer:", answer)
+
         # Generate insights based on provided categories
         if data_context:
             if st.button("Generate Business Idea"):
                 with st.spinner('Generating business idea...'):
-                    idea = get_openai_insight("Based off the following Data Identify which ethnic group should be the best to target and create a unique business idea tailored towards that group. The response should follow the format: 1) creative name of Business Idea 2) ethnic group you targeted 3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information 4) create a detailed quarterly business implementation plan using real world information about the trade area. Please format your answer neatly", data_context, st.session_state.user_type)
+                    idea = get_openai_insight("Based off the following Data Identify which ethnic group should be the best to target and create a unique business idea tailored towards that group. The response should follow the format: 1) creative name of Business Idea 2) ethnic group you targeted 3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information 4) create a detailed quarterly business implementation plan using real world information about the trade area. Please provide a detailed and well-structured answer to the question. Ensure the response is clear, concise, and formatted in a readable manner.Also add links to each external source you used", data_context, st.session_state.user_type)
                     st.write("Business Idea:", idea)
 
                     # Save to PDF
