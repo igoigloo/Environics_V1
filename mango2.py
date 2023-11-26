@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import openai
+from fpdf import FPDF
+import os
 
 # Create a Streamlit app with improved design
 st.set_page_config(page_title="Atlas Analytics")
@@ -89,6 +91,20 @@ def get_openai_insight(prompt, data_context, user_type):
     )
     return response.choices[0].text.strip()
 
+def save_idea_to_pdf(idea, user_type):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
+    # Replace unsupported characters
+    idea = idea.replace("’", "'")
+    pdf.cell(200, 10, txt = f"Business Insight Generator for {user_type}", ln = True, align = 'C')
+    pdf.multi_cell(0, 10, txt = idea)
+    pdf_output = f"business_idea_{user_type}.pdf"
+    pdf.output(pdf_output)
+    return pdf_output
+
+
+
 def main():
     if not st.session_state.continue_clicked:
         welcome_page()
@@ -110,6 +126,19 @@ def main():
                 with st.spinner('Generating business idea...'):
                     idea = get_openai_insight("Based off the following Data Identify which ethnic group should be the best to target and create a unique business idea tailored towards that group. The response should follow the format: 1) creative name of Business Idea 2) ethnic group you targeted 3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information 4) create a detailed quarterly business implementation plan using real world information about the trade area. Please format your answer neatly", data_context, st.session_state.user_type)
                     st.write("Business Idea:", idea)
+
+                    # Save to PDF
+                    pdf_file = save_idea_to_pdf(idea, st.session_state.user_type)
+                    with open(pdf_file, "rb") as file:
+                        st.download_button(
+                            label="Download Business Idea as PDF",
+                            data=file,
+                            file_name=pdf_file,
+                            mime="application/octet-stream"
+                        )
+
+                    # Optional: Clean up the file after download
+                    os.remove(pdf_file)
 
             if st.button("Generate Marketing Strategy"):
                 with st.spinner('Generating marketing strategy...'):

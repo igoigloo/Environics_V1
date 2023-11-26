@@ -1,1 +1,10 @@
 prompt list
+
+Business Idea
+"Based off the following Data Identify which ethnic group should be the best to target and create a unique business idea tailored towards that group. The response should follow the format: 1) creative name of Business Idea 2) ethnic group you targeted 3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information 4) create a detailed quarterly business implementation plan using real world information about the trade area. Please format your answer neatly"
+
+
+
+Marketing Plan
+
+Best Products to Launch

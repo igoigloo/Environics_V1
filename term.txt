@@ -1,0 +1,447 @@
+Last login: Sat Nov 25 15:45:20 on ttys002
+jacobmanangan@Jacobs-MacBook-Air ~ % cd /Users/jacobmanangan/Desktop/EnvironicsDemo
+jacobmanangan@Jacobs-MacBook-Air EnvironicsDemo % ls
+jacobmanangan@Jacobs-MacBook-Air EnvironicsDemo % gitclone https://github.com/igoigloo/Environics_V1.git
+zsh: command not found: gitclone
+jacobmanangan@Jacobs-MacBook-Air EnvironicsDemo % git clone https://github.com/igoigloo/Environics_V1.git
+Cloning into 'Environics_V1'...
+remote: Enumerating objects: 8, done.
+remote: Counting objects: 100% (8/8), done.
+remote: Compressing objects: 100% (4/4), done.
+Receiving objects: 100% (8/8), 5.54 KiB | 5.54 MiB/s, done.
+remote: Total 8 (delta 4), reused 8 (delta 4), pack-reused 0
+Resolving deltas: 100% (4/4), done.
+jacobmanangan@Jacobs-MacBook-Air EnvironicsDemo % git fetch
+fatal: not a git repository (or any of the parent directories): .git
+jacobmanangan@Jacobs-MacBook-Air EnvironicsDemo % cd /Users/jacobmanangan/Desktop/EnvironicsDemo/Environics_V1
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % ls
+Prompt_proj.py	new12.py	new12_copy.py
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % git fetch
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % git pull
+Already up to date.
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % git . 
+git: '.' is not a git command. See 'git --help'.
+
+The most similar commands are
+	am
+	gc
+	mv
+	p4
+	rm
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % git add .
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % git commit
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % git commit -m "first commit"
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % sudo pip install fpdf
+Password:
+Sorry, try again.
+Password:
+Sorry, try again.
+Password:
+WARNING: The directory '/Users/jacobmanangan/Library/Caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Requirement already satisfied: fpdf in /opt/homebrew/lib/python3.10/site-packages (1.7.2)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % code .
+zsh: command not found: code
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % code .
+zsh: command not found: code
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % code .
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % sudo pip install fpdf
+WARNING: The directory '/Users/jacobmanangan/Library/Caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Requirement already satisfied: fpdf in /opt/homebrew/lib/python3.10/site-packages (1.7.2)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % sudo pip install -H
+
+Usage:   
+  pip install [options] <requirement specifier> [package-index-options] ...
+  pip install [options] -r <requirements file> [package-index-options] ...
+  pip install [options] [-e] <vcs project url> ...
+  pip install [options] [-e] <local project path> ...
+  pip install [options] <archive url/path> ...
+
+no such option: -H
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % sudo pip install fpdf -H
+
+Usage:   
+  pip install [options] <requirement specifier> [package-index-options] ...
+  pip install [options] -r <requirements file> [package-index-options] ...
+  pip install [options] [-e] <vcs project url> ...
+  pip install [options] [-e] <local project path> ...
+  pip install [options] <archive url/path> ...
+
+no such option: -H
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % sudo -H pip install fpdf
+Requirement already satisfied: fpdf in /opt/homebrew/lib/python3.10/site-packages (1.7.2)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % code .
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % sudo pip install fpdf2
+Password:
+WARNING: The directory '/Users/jacobmanangan/Library/Caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Collecting fpdf2
+  Downloading fpdf2-2.7.6-py2.py3-none-any.whl.metadata (51 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 51.7/51.7 kB 3.2 MB/s eta 0:00:00
+Collecting defusedxml (from fpdf2)
+  Downloading defusedxml-0.7.1-py2.py3-none-any.whl (25 kB)
+Requirement already satisfied: Pillow!=9.2.*,>=6.2.2 in /opt/homebrew/lib/python3.10/site-packages (from fpdf2) (10.0.1)
+Requirement already satisfied: fonttools>=4.34.0 in /opt/homebrew/lib/python3.10/site-packages (from fpdf2) (4.43.1)
+Downloading fpdf2-2.7.6-py2.py3-none-any.whl (187 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 187.1/187.1 kB 6.3 MB/s eta 0:00:00
+Installing collected packages: defusedxml, fpdf2
+Successfully installed defusedxml-0.7.1 fpdf2-2.7.6
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtujacobmanangan@Jajacobmanjacobmananjacojacobmjacobmanangan@Jacobs-MacBook-Air Environics_V1 % sudo python3 -m pip install fpdf
+Password:
+Sorry, try again.
+Password:
+WARNING: The directory '/Users/jacobmanangan/Library/Caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Requirement already satisfied: fpdf in /opt/homebrew/lib/python3.11/site-packages (1.7.2)
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip3 -version
+
+Usage:   
+  pip3 <command> [options]
+
+no such option: -e
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip3 --version
+pip 23.3.1 from /opt/homebrew/lib/python3.11/site-packages/pip (python 3.11)
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip install fpdf --jacobmanangan
+
+Usage:   
+  pip install [options] <requirement specifier> [package-index-options] ...
+  pip install [options] -r <requirements file> [package-index-options] ...
+  pip install [options] [-e] <vcs project url> ...
+  pip install [options] [-e] <local project path> ...
+  pip install [options] <archive url/path> ...
+
+no such option: --jacobmanangan
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % dscl . list /Users | grep -v “^_”
+
+_accessoryupdater
+_amavisd
+_analyticsd
+_appinstalld
+_appleevents
+_applepay
+_appowner
+_appserver
+_appstore
+_ard
+_assetcache
+_astris
+_atsserver
+_avbdeviced
+_avphidbridge
+_backgroundassets
+_biome
+_calendar
+_captiveagent
+_ces
+_clamav
+_cmiodalassistants
+_coreaudiod
+_coremediaiod
+_coreml
+_ctkd
+_cvmsroot
+_cvs
+_cyrus
+_darwindaemon
+_datadetectors
+_demod
+_devdocs
+_devicemgr
+_diskimagesiod
+_displaypolicyd
+_distnote
+_dovecot
+_dovenull
+_dpaudio
+_driverkit
+_eppc
+_findmydevice
+_fpsd
+_ftp
+_gamecontrollerd
+_geod
+_hidd
+_iconservices
+_installassistant
+_installcoordinationd
+_installer
+_jabber
+_kadmin_admin
+_kadmin_changepw
+_knowledgegraphd
+_krb_anonymous
+_krb_changepw
+_krb_kadmin
+_krb_kerberos
+_krb_krbtgt
+_krbfast
+_krbtgt
+_launchservicesd
+_lda
+_locationd
+_logd
+_lp
+_mailman
+_mbsetupuser
+_mcxalr
+_mdnsresponder
+_mmaintenanced
+_mobileasset
+_mysql
+_nearbyd
+_netbios
+_netstatistics
+_networkd
+_notification_proxy
+_nsurlsessiond
+_oahd
+_ondemand
+_postfix
+_postgres
+_qtss
+_reportmemoryexception
+_rmd
+_sandbox
+_screensaver
+_scsd
+_securityagent
+_sntpd
+_softwareupdate
+_spotlight
+_sshd
+_svn
+_taskgated
+_teamsserver
+_timed
+_timezone
+_tokend
+_trustd
+_trustevaluationagent
+_unknown
+_update_sharing
+_usbmuxd
+_uucp
+_warmd
+_webauthserver
+_windowserver
+_www
+_wwwproxy
+_xserverdocs
+daemon
+jacobmanangan
+nobody
+root
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip install fpdf --jacobmanangan
+
+Usage:   
+  pip install [options] <requirement specifier> [package-index-options] ...
+  pip install [options] -r <requirements file> [package-index-options] ...
+  pip install [options] [-e] <vcs project url> ...
+  pip install [options] [-e] <local project path> ...
+  pip install [options] <archive url/path> ...
+
+no such option: --jacobmanangan
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip install fpdf --user
+Requirement already satisfied: fpdf in /opt/homebrew/lib/python3.10/site-packages (1.7.2)
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip3 install fpdf
+Requirement already satisfied: fpdf in /opt/homebrew/lib/python3.11/site-packages (1.7.2)
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % python get-pip.py --user
+/opt/homebrew/bin/python: can't open file '/Users/jacobmanangan/Desktop/EnvironicsDemo/Environics_V1/get-pip.py': [Errno 2] No such file or directory
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip list
+Package                   Version
+------------------------- ------------
+altair                    5.1.2
+appdirs                   1.4.4
+appnope                   0.1.3
+asttokens                 2.4.1
+attrs                     23.1.0
+backcall                  0.2.0
+beautifulsoup4            4.12.2
+blinker                   1.7.0
+cachetools                5.3.2
+certifi                   2023.7.22
+charset-normalizer        3.3.1
+click                     8.1.7
+comm                      0.1.4
+contourpy                 1.1.1
+cycler                    0.12.1
+debugpy                   1.8.0
+decorator                 5.1.1
+defusedxml                0.7.1
+et-xmlfile                1.1.0
+exceptiongroup            1.1.3
+executing                 2.0.0
+fonttools                 4.43.1
+fpdf                      1.7.2
+fpdf2                     2.7.6
+frozendict                2.3.8
+gitdb                     4.0.11
+GitPython                 3.1.40
+html5lib                  1.1
+idna                      3.4
+importlib-metadata        6.8.0
+ipykernel                 6.26.0
+ipython                   8.16.1
+jedi                      0.19.1
+Jinja2                    3.1.2
+jsonschema                4.20.0
+jsonschema-specifications 2023.11.1
+jupyter_client            8.5.0
+jupyter_core              5.4.0
+kiwisolver                1.4.5
+lxml                      4.9.3
+markdown-it-py            3.0.0
+MarkupSafe                2.1.3
+matplotlib                3.8.0
+matplotlib-inline         0.1.6
+mdurl                     0.1.2
+multitasking              0.0.11
+nest-asyncio              1.5.8
+numpy                     1.26.0
+openpyxl                  3.1.2
+packaging                 23.2
+pandas                    2.1.2
+pandasql                  0.7.3
+parso                     0.8.3
+peewee                    3.17.0
+pexpect                   4.8.0
+pickleshare               0.7.5
+Pillow                    10.0.1
+pip                       23.3.1
+platformdirs              3.11.0
+plotly                    5.17.0
+prompt-toolkit            3.0.39
+protobuf                  4.25.0
+psutil                    5.9.6
+ptyprocess                0.7.0
+pure-eval                 0.2.2
+pyarrow                   14.0.1
+pydeck                    0.8.1b0
+Pygments                  2.17.2
+pyparsing                 3.1.1
+python-dateutil           2.8.2
+pytz                      2023.3.post1
+pyzmq                     25.1.1
+referencing               0.31.0
+requests                  2.31.0
+rich                      13.7.0
+rpds-py                   0.13.1
+setuptools                68.2.2
+six                       1.16.0
+smmap                     5.0.1
+soupsieve                 2.5
+SQLAlchemy                2.0.22
+stack-data                0.6.3
+streamlit                 1.28.2
+ta                        0.11.0
+tenacity                  8.2.3
+toml                      0.10.2
+toolz                     0.12.0
+tornado                   6.3.3
+traitlets                 5.12.0
+typing_extensions         4.8.0
+tzdata                    2023.3
+tzlocal                   5.2
+urllib3                   2.0.7
+validators                0.22.0
+wcwidth                   0.2.8
+webencodings              0.5.1
+wheel                     0.41.3
+yfinance                  0.2.31
+zipp                      3.17.0
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip install openai
+Collecting openai
+  Downloading openai-1.3.5-py3-none-any.whl.metadata (16 kB)
+Collecting anyio<4,>=3.5.0 (from openai)
+  Downloading anyio-3.7.1-py3-none-any.whl.metadata (4.7 kB)
+Collecting distro<2,>=1.7.0 (from openai)
+  Downloading distro-1.8.0-py3-none-any.whl (20 kB)
+Collecting httpx<1,>=0.23.0 (from openai)
+  Downloading httpx-0.25.2-py3-none-any.whl.metadata (6.9 kB)
+Collecting pydantic<3,>=1.9.0 (from openai)
+  Downloading pydantic-2.5.2-py3-none-any.whl.metadata (65 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 65.2/65.2 kB 2.7 MB/s eta 0:00:00
+Collecting tqdm>4 (from openai)
+  Downloading tqdm-4.66.1-py3-none-any.whl.metadata (57 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.6/57.6 kB 5.2 MB/s eta 0:00:00
+Requirement already satisfied: typing-extensions<5,>=4.5 in /opt/homebrew/lib/python3.10/site-packages (from openai) (4.8.0)
+Requirement already satisfied: idna>=2.8 in /opt/homebrew/lib/python3.10/site-packages (from anyio<4,>=3.5.0->openai) (3.4)
+Collecting sniffio>=1.1 (from anyio<4,>=3.5.0->openai)
+  Downloading sniffio-1.3.0-py3-none-any.whl (10 kB)
+Requirement already satisfied: exceptiongroup in /Users/jacobmanangan/Library/Python/3.10/lib/python/site-packages (from anyio<4,>=3.5.0->openai) (1.1.3)
+Requirement already satisfied: certifi in /opt/homebrew/lib/python3.10/site-packages (from httpx<1,>=0.23.0->openai) (2023.7.22)
+Collecting httpcore==1.* (from httpx<1,>=0.23.0->openai)
+  Downloading httpcore-1.0.2-py3-none-any.whl.metadata (20 kB)
+Collecting h11<0.15,>=0.13 (from httpcore==1.*->httpx<1,>=0.23.0->openai)
+  Downloading h11-0.14.0-py3-none-any.whl (58 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.3/58.3 kB 5.5 MB/s eta 0:00:00
+Collecting annotated-types>=0.4.0 (from pydantic<3,>=1.9.0->openai)
+  Downloading annotated_types-0.6.0-py3-none-any.whl.metadata (12 kB)
+Collecting pydantic-core==2.14.5 (from pydantic<3,>=1.9.0->openai)
+  Downloading pydantic_core-2.14.5-cp310-cp310-macosx_11_0_arm64.whl.metadata (6.5 kB)
+Downloading openai-1.3.5-py3-none-any.whl (220 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 220.8/220.8 kB 6.3 MB/s eta 0:00:00
+Downloading anyio-3.7.1-py3-none-any.whl (80 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 80.9/80.9 kB 10.1 MB/s eta 0:00:00
+Downloading httpx-0.25.2-py3-none-any.whl (74 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 75.0/75.0 kB 4.2 MB/s eta 0:00:00
+Downloading httpcore-1.0.2-py3-none-any.whl (76 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 76.9/76.9 kB 6.2 MB/s eta 0:00:00
+Downloading pydantic-2.5.2-py3-none-any.whl (381 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 381.9/381.9 kB 7.3 MB/s eta 0:00:00
+Downloading pydantic_core-2.14.5-cp310-cp310-macosx_11_0_arm64.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 8.2 MB/s eta 0:00:00
+Downloading tqdm-4.66.1-py3-none-any.whl (78 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.3/78.3 kB 7.9 MB/s eta 0:00:00
+Downloading annotated_types-0.6.0-py3-none-any.whl (12 kB)
+Installing collected packages: tqdm, sniffio, pydantic-core, h11, distro, annotated-types, pydantic, httpcore, anyio, httpx, openai
+Successfully installed annotated-types-0.6.0 anyio-3.7.1 distro-1.8.0 h11-0.14.0 httpcore-1.0.2 httpx-0.25.2 openai-1.3.5 pydantic-2.5.2 pydantic-core-2.14.5 sniffio-1.3.0 tqdm-4.66.1
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip install fpdf
+Requirement already satisfied: fpdf in /opt/homebrew/lib/python3.10/site-packages (1.7.2)
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % pip install openai==0.28
+Collecting openai==0.28
+  Downloading openai-0.28.0-py3-none-any.whl.metadata (13 kB)
+Requirement already satisfied: requests>=2.20 in /opt/homebrew/lib/python3.10/site-packages (from openai==0.28) (2.31.0)
+Requirement already satisfied: tqdm in /opt/homebrew/lib/python3.10/site-packages (from openai==0.28) (4.66.1)
+Collecting aiohttp (from openai==0.28)
+  Downloading aiohttp-3.9.0-cp310-cp310-macosx_11_0_arm64.whl.metadata (7.4 kB)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/homebrew/lib/python3.10/site-packages (from requests>=2.20->openai==0.28) (3.3.1)
+Requirement already satisfied: idna<4,>=2.5 in /opt/homebrew/lib/python3.10/site-packages (from requests>=2.20->openai==0.28) (3.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/homebrew/lib/python3.10/site-packages (from requests>=2.20->openai==0.28) (2.0.7)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/homebrew/lib/python3.10/site-packages (from requests>=2.20->openai==0.28) (2023.7.22)
+Requirement already satisfied: attrs>=17.3.0 in /opt/homebrew/lib/python3.10/site-packages (from aiohttp->openai==0.28) (23.1.0)
+Collecting multidict<7.0,>=4.5 (from aiohttp->openai==0.28)
+  Downloading multidict-6.0.4-cp310-cp310-macosx_11_0_arm64.whl (29 kB)
+Collecting yarl<2.0,>=1.0 (from aiohttp->openai==0.28)
+  Downloading yarl-1.9.3-cp310-cp310-macosx_11_0_arm64.whl.metadata (28 kB)
+Collecting frozenlist>=1.1.1 (from aiohttp->openai==0.28)
+  Downloading frozenlist-1.4.0-cp310-cp310-macosx_11_0_arm64.whl.metadata (5.2 kB)
+Collecting aiosignal>=1.1.2 (from aiohttp->openai==0.28)
+  Downloading aiosignal-1.3.1-py3-none-any.whl (7.6 kB)
+Collecting async-timeout<5.0,>=4.0 (from aiohttp->openai==0.28)
+  Downloading async_timeout-4.0.3-py3-none-any.whl.metadata (4.2 kB)
+Downloading openai-0.28.0-py3-none-any.whl (76 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 76.5/76.5 kB 4.8 MB/s eta 0:00:00
+Downloading aiohttp-3.9.0-cp310-cp310-macosx_11_0_arm64.whl (386 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 386.0/386.0 kB 16.4 MB/s eta 0:00:00
+Downloading async_timeout-4.0.3-py3-none-any.whl (5.7 kB)
+Downloading frozenlist-1.4.0-cp310-cp310-macosx_11_0_arm64.whl (46 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 46.0/46.0 kB 5.4 MB/s eta 0:00:00
+Downloading yarl-1.9.3-cp310-cp310-macosx_11_0_arm64.whl (78 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.4/78.4 kB 10.4 MB/s eta 0:00:00
+Installing collected packages: multidict, frozenlist, async-timeout, yarl, aiosignal, aiohttp, openai
+  Attempting uninstall: openai
+    Found existing installation: openai 1.3.5
+    Uninstalling openai-1.3.5:
+      Successfully uninstalled openai-1.3.5
+Successfully installed aiohttp-3.9.0 aiosignal-1.3.1 async-timeout-4.0.3 frozenlist-1.4.0 multidict-6.0.4 openai-0.28.0 yarl-1.9.3
+jacobmanangan@Jacobs-MacBook-Air Environics_V1 % 
