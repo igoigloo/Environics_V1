@@ -100,7 +100,7 @@ def process_data_for_openai(dataframes):
     return combined_data.to_string()
 
 def get_openai_insight(prompt, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Adjust prompt based on user type
     tailored_context = f"As a {user_type}, " + data_context
@@ -115,7 +115,7 @@ def get_openai_insight(prompt, data_context, user_type):
 
 
 def get_openai_insight2(question, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Instructions for a nicely formatted response
     instructions = (

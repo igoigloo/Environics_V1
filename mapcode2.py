@@ -181,8 +181,8 @@ def generate_choropleth(data):
     fig, ax = plt.subplots(1, 1, figsize=(15, 10))
     
     # Set the background color of the axes and figure to black
-    ax.set_facecolor('#0E1117')
-    fig.set_facecolor('#0E1117')
+    ax.set_facecolor('white') # inner
+    fig.set_facecolor('white') # outer
 
     merged.plot(column='Count', ax=ax, legend=True, cmap='Greens', missing_kwds={
         "color": "lightgrey",
@@ -190,23 +190,23 @@ def generate_choropleth(data):
         "hatch": "///",
         "label": "Missing values"
     })
-    ax.set_title('Permanent Resident Count by Country in Trade Area', fontsize=15, color='white')  # Set title color to white for visibility
+    ax.set_title('Permanent Resident Count by Country in Trade Area', fontsize=15, color='black')  # Set title color to white for visibility
     # Set the border color of the map to blue
     for spine in ax.spines.values():
-        spine.set_edgecolor('#0E1117')
+        spine.set_edgecolor('#008000')
     # Change the color of the axes and tick labels to white for visibility
-    ax.tick_params(colors='white', which='both')
-    ax.xaxis.label.set_color('white')
-    ax.yaxis.label.set_color('white')
+    ax.tick_params(colors='black', which='both')
+    ax.xaxis.label.set_color('black')
+    ax.yaxis.label.set_color('black')
 
     # Change the legend background to black and text to white
     legend = ax.get_legend()
     if legend:
         frame = legend.get_frame()
-        frame.set_color('black')
-        frame.set_edgecolor('white')
+        frame.set_color('#008000')
+        frame.set_edgecolor('#008000')
         for text in legend.get_texts():
-            text.set_color('white')
+            text.set_color('#008000')
 
     img_buf = BytesIO()
     fig.savefig(img_buf, format='png', facecolor=fig.get_facecolor(), edgecolor='none')
