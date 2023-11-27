@@ -1,11 +1,18 @@
 import streamlit as st
+data_context = ''
+if 'uploaded_file' not in st.session_state:
+    st.session_state.uploaded_file = None
+
 import pandas as pd
 import openai
 from fpdf import FPDF
 import os
 
 # Create a Streamlit app with improved design
-st.set_page_config(page_title="Atlas Analytics")
+if st.session_state.uploaded_file is not None:
+    st.set_page_config(layout="wide")
+else:
+    st.set_page_config(page_title="Atlas Analytics")
 # Custom CSS to style the app
 st.markdown(
     """
@@ -135,24 +142,29 @@ def main():
 
         # File uploader for multiple files
         uploaded_files = st.file_uploader("Upload Excel files", type="xlsx", accept_multiple_files=True)
+if 'uploaded_file' in st.session_state and st.session_state.uploaded_file is not None:
+    # Update data_context based on uploaded file
+    data_context = process_data_for_openai([read_excel(st.session_state.uploaded_file)])
+if 'uploaded_file' in st.session_state and st.session_state.uploaded_file is not None:
+    st.set_page_config(layout='wide')
 
         # Initialize data context
-        data_context = ""
-        if uploaded_files:
+    data_context = ""
+    if uploaded_files:
             all_dfs = [read_excel(uploaded_file) for uploaded_file in uploaded_files]
             data_context = process_data_for_openai(all_dfs)
 
         # Section for asking questions
-        st.subheader("Ask a Question")
-        user_question = st.text_input("Enter your question based on the data:")
-        if st.button("Get Answer"):
+    st.subheader("Ask a Question")
+    user_question = st.text_input("Enter your question based on the data:")
+    if st.button("Get Answer"):
             with st.spinner('Generating answer...'):
                 # Generate answer using OpenAI based on the user's question and data context
                 answer = get_openai_insight2(user_question, data_context, st.session_state.user_type)
                 st.write("Answer:", answer)
 
         # Generate insights based on provided categories
-        if data_context:
+    if data_context:
             if st.button("Generate Business Idea"):
                 with st.spinner('Generating business idea...'):
                     idea = get_openai_insight("Based off the following Data Identify which ethnic group should be the best to target and create a unique business idea tailored towards that group. The response should follow the format: 1) creative name of Business Idea 2) ethnic group you targeted 3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information 4) create a detailed quarterly business implementation plan using real world information about the trade area. Please provide a detailed and well-structured answer to the question. Ensure the response is clear, concise, and formatted in a readable manner.Also add links to each external source you used", data_context, st.session_state.user_type)
@@ -171,17 +183,18 @@ def main():
                     # Optional: Clean up the file after download
                     os.remove(pdf_file)
 
-            if st.button("Generate Marketing Strategy"):
-                with st.spinner('Generating marketing strategy...'):
+            st.sidebar.title("Digital Consultant")
+st.sidebar.button("Generate Marketing Strategy")
+with st.spinner('Generating marketing strategy...'):
                     strategy = get_openai_insight("Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities. Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns. Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts. Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate", data_context, st.session_state.user_type)
                     st.write("Marketing Strategy:", strategy)
 
-            if st.button("Identify Best Products/Brands to Launch"):
+if st.sidebar.button("Identify Best Products/Brands to Launch"):
                 with st.spinner('Identifying best products/brands...'):
                     products = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill. Please list off real world products and brands. and make sure to explain how you used the dataset given", data_context, st.session_state.user_type)
                     st.write("Best Products/Brands:", products)
 
-            if st.button("Suggest CSR Initiatives"):
+if st.sidebar.button("Suggest CSR Initiatives"):
                 with st.spinner('Suggesting CSR initiatives...'):
                     csr = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents from India and China. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill.", data_context, st.session_state.user_type)
                     st.write("CSR Initiatives:", csr)

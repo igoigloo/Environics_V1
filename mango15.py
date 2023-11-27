@@ -134,7 +134,10 @@ def main():
         st.title(f"Business Insight Generator for {st.session_state.user_type}")
 
         # File uploader for multiple files
-        uploaded_files = st.file_uploader("Upload Excel files", type="xlsx", accept_multiple_files=True)
+        uploaded_files = 
+if 'uploaded_file' in st.session_state and st.session_state.uploaded_file is not None:
+    st.set_page_config(layout='wide')
+st.file_uploader("Upload Excel files", type="xlsx", accept_multiple_files=True)
 
         # Initialize data context
         data_context = ""
@@ -171,20 +174,25 @@ def main():
                     # Optional: Clean up the file after download
                     os.remove(pdf_file)
 
-            if st.button("Generate Marketing Strategy"):
+            if st.sidebar.title("Digital Consultant")
+st.sidebar.button("Generate Marketing Strategy"):
                 with st.spinner('Generating marketing strategy...'):
                     strategy = get_openai_insight("Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities. Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns. Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts. Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate", data_context, st.session_state.user_type)
                     st.write("Marketing Strategy:", strategy)
 
-            if st.button("Identify Best Products/Brands to Launch"):
+            if st.sidebar.button("Identify Best Products/Brands to Launch"):
                 with st.spinner('Identifying best products/brands...'):
                     products = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill. Please list off real world products and brands. and make sure to explain how you used the dataset given", data_context, st.session_state.user_type)
                     st.write("Best Products/Brands:", products)
 
-            if st.button("Suggest CSR Initiatives"):
+            if st.sidebar.button("Suggest CSR Initiatives"):
                 with st.spinner('Suggesting CSR initiatives...'):
                     csr = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents from India and China. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill.", data_context, st.session_state.user_type)
                     st.write("CSR Initiatives:", csr)
 
 if __name__ == "__main__":
     main()
+
+if 'output_page' in st.session_state and st.session_state.output_page:
+    # Output code goes here
+    pass
