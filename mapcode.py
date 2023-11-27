@@ -1,58 +1,14 @@
 import streamlit as st
 import pandas as pd
+import openai
+from fpdf import FPDF
+import os
+import streamlit as st
+import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
-import openai
-import os
 from PIL import Image
 from io import BytesIO
-from fpdf import FPDF
-
-# Function to decode the country codes
-def decode_country_codes(data):
-    country_code_mapping = {
-        'NC23Q1PRCIND': 'India',
-        'NC23Q1PRCCHN': 'China',
-        'NC23Q1PRCPHL': 'Philippines',
-        'NC23Q1PRCNGA': 'Nigeria',
-        'NC23Q1PRCUSA': 'United States of America',
-        'NC23Q1PRCPAK': 'Pakistan',
-        'NC23Q1PRCFRA': 'France',
-        'NC23Q1PRCIRN': 'Iran',
-        'NC23Q1PRCBRA': 'Brazil',
-        'NC23Q1PRCKOR': 'South Korea',
-        'NC23Q1PRCGBR': 'United Kingdom',
-        'NC23Q1PRCMEX': 'Mexico',
-        'NC23Q1PRCJAM': 'Jamaica',
-        'NC23Q1PRCCOL': 'Colombia',
-        'NC23Q1PRCVIE': 'Vietnam',
-        'NC23Q1PRCBAN': 'Bangladesh',
-        'NC23Q1PRCMOR': 'Morocco',
-        'NC23Q1PRCALG': 'Algeria',
-        'NC23Q1PRCUKR': 'Ukraine',
-        'NC23Q1PRCHKG': 'Hong Kong',
-        # Add more mappings if necessary
-    }
-    data['Country'] = data['Country'].map(country_code_mapping)
-    return data.dropna()
-
-# Function to generate choropleth map
-def generate_choropleth(data):
-    world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-    merged = world.merge(data, left_on='name', right_on='Country', how='left')
-    fig, ax = plt.subplots(1, 1, figsize=(15, 10))
-    merged.plot(column='Count', ax=ax, legend=True, cmap='OrRd', missing_kwds={
-        "color": "lightgrey",
-        "edgecolor": "black",
-        "hatch": "///",
-        "label": "Missing values"
-    })
-    ax.set_title('Permanent Resident Count by Country in Trade Area', fontsize=15)
-    img_buf = BytesIO()
-    fig.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    return Image.open(img_buf)
-
 # Define a function to reset the output page state
 def reset_output_page_state():
     st.session_state.output_page = False
@@ -106,6 +62,9 @@ st.markdown(
     width: 100%;  # Sets the width to 100% of the sidebar
     height: 50px; # Fixed height for all buttons
 }
+    .css-1d391kg {  /* This is the class for sidebar title in Streamlit */
+        font-size: 35px;  /* Adjust the size as needed */
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -141,7 +100,7 @@ def process_data_for_openai(dataframes):
     return combined_data.to_string()
 
 def get_openai_insight(prompt, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Adjust prompt based on user type
     tailored_context = f"As a {user_type}, " + data_context
@@ -150,13 +109,13 @@ def get_openai_insight(prompt, data_context, user_type):
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=full_prompt,
-        max_tokens=100
+        max_tokens=500
     )
     return response.choices[0].text.strip()
 
 
 def get_openai_insight2(question, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Instructions for a nicely formatted response
     instructions = (
@@ -176,54 +135,61 @@ def get_openai_insight2(question, data_context, user_type):
     return response.choices[0].text.strip()
 
 
-def save_idea_to_pdf_BIG(idea, user_type):
+def save_idea_to_pdf(idea, user_type):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
     # Replace unsupported characters
-    idea = idea.replace("’", "'")
+    # Replace unsupported curly apostrophes and quotation marks
+    idea = idea.replace("’", "'").replace('“', '"').replace('”', '"')
     pdf.cell(200, 10, txt = f"Business Insight Generator for {user_type}", ln = True, align = 'C')
     pdf.multi_cell(0, 10, txt = idea)
     pdf_output = f"business_idea_{user_type}.pdf"
     pdf.output(pdf_output)
     return pdf_output
 
-def save_idea_to_pdf_GMS(idea, user_type):
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
-    # Replace unsupported characters
-    idea = idea.replace("’", "'")
-    pdf.cell(200, 10, txt = f"Marketing Strategy Generator for {user_type}", ln = True, align = 'C')
-    pdf.multi_cell(0, 10, txt = idea)
-    pdf_output = f"marketing_idea_{user_type}.pdf"
-    pdf.output(pdf_output)
-    return pdf_output
+def decode_country_codes(data):
+    country_code_mapping = {
+        'NC23Q1PRCIND': 'India',
+        'NC23Q1PRCCHN': 'China',
+        'NC23Q1PRCPHL': 'Philippines',
+        'NC23Q1PRCNGA': 'Nigeria',
+        'NC23Q1PRCUSA': 'United States of America',
+        'NC23Q1PRCPAK': 'Pakistan',
+        'NC23Q1PRCFRA': 'France',
+        'NC23Q1PRCIRN': 'Iran',
+        'NC23Q1PRCBRA': 'Brazil',
+        'NC23Q1PRCKOR': 'South Korea',
+        'NC23Q1PRCGBR': 'United Kingdom',
+        'NC23Q1PRCMEX': 'Mexico',
+        'NC23Q1PRCJAM': 'Jamaica',
+        'NC23Q1PRCCOL': 'Colombia',
+        'NC23Q1PRCVIE': 'Vietnam',
+        'NC23Q1PRCBAN': 'Bangladesh',
+        'NC23Q1PRCMOR': 'Morocco',
+        'NC23Q1PRCALG': 'Algeria',
+        'NC23Q1PRCUKR': 'Ukraine',
+        'NC23Q1PRCHKG': 'Hong Kong',
+        # Add more mappings if necessary
+    }
+    data['Country'] = data['Country'].map(country_code_mapping)
+    return data.dropna()
 
-def save_idea_to_pdf_BPG(idea, user_type):
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
-    # Replace unsupported characters
-    idea = idea.replace("’", "'")
-    pdf.cell(200, 10, txt = f"Best Product Generator for {user_type}", ln = True, align = 'C')
-    pdf.multi_cell(0, 10, txt = idea)
-    pdf_output = f"product_idea_{user_type}.pdf"
-    pdf.output(pdf_output)
-    return pdf_output
-
-def save_idea_to_pdf_CSR(idea, user_type):
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
-    # Replace unsupported characters
-    idea = idea.replace("’", "'")
-    pdf.cell(200, 10, txt = f"CSR Generator for {user_type}", ln = True, align = 'C')
-    pdf.multi_cell(0, 10, txt = idea)
-    pdf_output = f"CSR_idea_{user_type}.pdf"
-    pdf.output(pdf_output)
-    return pdf_output
-
+def generate_choropleth(data):
+    world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+    merged = world.merge(data, left_on='name', right_on='Country', how='left')
+    fig, ax = plt.subplots(1, 1, figsize=(15, 10))
+    merged.plot(column='Count', ax=ax, legend=True, cmap='Greens', missing_kwds={
+        "color": "lightgrey",
+        "edgecolor": "black",
+        "hatch": "///",
+        "label": "Missing values"
+    })
+    ax.set_title('Permanent Resident Count by Country in Trade Area', fontsize=15)
+    img_buf = BytesIO()
+    fig.savefig(img_buf, format='png')
+    img_buf.seek(0)
+    return Image.open(img_buf)
 
 
 # Conditional rendering based on the current page
@@ -275,7 +241,7 @@ def main():
                         st.write("Business Idea:", idea)
 
                         # Save to PDF
-                        pdf_file = save_idea_to_pdf_BIG(idea, st.session_state.user_type)
+                        pdf_file = save_idea_to_pdf(idea, st.session_state.user_type)
                         with open(pdf_file, "rb") as file:
                             st.download_button(
                                 label="Download Business Idea as PDF",
@@ -293,72 +259,35 @@ def main():
                         strategy = get_openai_insight("Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities. Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns. Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts. Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate", data_context, st.session_state.user_type)
                         st.write("Marketing Strategy:", strategy)
 
-                        
-                        # Save to PDF
-                        pdf_file = save_idea_to_pdf_GMS(strategy, st.session_state.user_type)
-                        with open(pdf_file, "rb") as file:
-                            st.download_button(
-                                label="Download Marketing Strategy Idea as PDF",
-                                data=file,
-                                file_name=pdf_file,
-                                mime="application/octet-stream"
-                            )
-
-                        # Optional: Clean up the file after download
-                        os.remove(pdf_file)
-
                 if st.sidebar.button("Identify Best Products/Brands to Launch"):
                     with st.spinner('Identifying best products/brands...'):
                         products = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill. Please list off real world products and brands. and make sure to explain how you used the dataset given", data_context, st.session_state.user_type)
                         st.write("Best Products/Brands:", products)
 
-                        # Save to PDF
-                        pdf_file = save_idea_to_pdf_BPG(products, st.session_state.user_type)
-                        with open(pdf_file, "rb") as file:
-                            st.download_button(
-                                label="Download Products Idea as PDF",
-                                data=file,
-                                file_name=pdf_file,
-                                mime="application/octet-stream"
-                            )
-
-                        # Optional: Clean up the file after download
-                        os.remove(pdf_file)
-
                 if st.sidebar.button("Suggest CSR Initiatives"):
                     with st.spinner('Suggesting CSR initiatives...'):
                         csr = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents from India and China. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill.", data_context, st.session_state.user_type)
                         st.write("CSR Initiatives:", csr)
-
-                        # Save to PDF
-                        pdf_file = save_idea_to_pdf_CSR(csr, st.session_state.user_type)
-                        with open(pdf_file, "rb") as file:
-                            st.download_button(
-                                label="CSR Idea as PDF",
-                                data=file,
-                                file_name=pdf_file,
-                                mime="application/octet-stream"
-                            )
-
-                        # Optional: Clean up the file after download
-                        os.remove(pdf_file)
-
+              #  st.sidebar.image("Logo.png")
                 if st.sidebar.button("Choropleth Map"):
                     with st.spinner('Suggesting CSR initiatives...'):
                         # Process the Excel file
-                        data = pd.read_excel(uploaded_files, skiprows=4)  # Skip header rows
+                        if uploaded_files and len(uploaded_files) > 0:
+                            # Assuming we are processing the first uploaded file
+                            uploaded_files = uploaded_files[0]
+                            data = pd.read_excel(uploaded_files, skiprows=4)
+                            data_context = data.copy()
+                            #data = pd.read_excel(uploaded_files, skiprows=4)  # Skip header rows
 
-                        # Updating column names based on the actual structure of your Excel file
-                        data.columns = ['Country', 'Description', 'Count', 'Percent', 'Base Count', 'Base Percent', 'Percent Penetration', 'Index']
-                        data = data[['Country', 'Count']]
-                        data = decode_country_codes(data)
+                            # Updating column names based on the actual structure of your Excel file
+                            data.columns = ['Country', 'Description', 'Count', 'Percent', 'Base Count', 'Base Percent', 'Percent Penetration', 'Index']
+                            data = data[['Country', 'Count']]
+                            data = decode_country_codes(data)
 
-                        # Generate and display the choropleth map
-                        st.write("Choropleth Map:")
-                        map_image = generate_choropleth(data)
-                        st.image(map_image)
-
-
+                            # Generate and display the choropleth map
+                            st.write("Choropleth Map:")
+                            map_image = generate_choropleth(data)
+                            st.image(map_image)
 if __name__ == "__main__":
     main()
 

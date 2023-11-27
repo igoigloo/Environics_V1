@@ -57,6 +57,9 @@ st.markdown(
     width: 100%;  # Sets the width to 100% of the sidebar
     height: 50px; # Fixed height for all buttons
 }
+    .css-1d391kg {  /* This is the class for sidebar title in Streamlit */
+        font-size: 35px;  /* Adjust the size as needed */
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -92,7 +95,7 @@ def process_data_for_openai(dataframes):
     return combined_data.to_string()
 
 def get_openai_insight(prompt, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Adjust prompt based on user type
     tailored_context = f"As a {user_type}, " + data_context
@@ -107,7 +110,7 @@ def get_openai_insight(prompt, data_context, user_type):
 
 
 def get_openai_insight2(question, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Instructions for a nicely formatted response
     instructions = (
@@ -218,7 +221,7 @@ def main():
                     with st.spinner('Suggesting CSR initiatives...'):
                         csr = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents from India and China. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill.", data_context, st.session_state.user_type)
                         st.write("CSR Initiatives:", csr)
-
+              #  st.sidebar.image("Logo.png")
 if __name__ == "__main__":
     main()
 
