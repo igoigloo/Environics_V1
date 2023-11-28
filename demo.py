@@ -59,7 +59,7 @@ st.markdown(
         background-color: #4CAF50;  /* Use green for Plotly chart background */
     }
     .stButton > button {
-    width: 100%;  # Sets the width to 100% of the sidebar
+    width: 100%;  # Sets the width to 100 percent of the sidebar
     height: 50px; # Fixed height for all buttons
 }
     .css-1d391kg {  /* This is the class for sidebar title in Streamlit */
@@ -100,7 +100,7 @@ def process_data_for_openai(dataframes):
     return combined_data.to_string()
 
 def get_openai_insight(prompt, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Adjust prompt based on user type
     tailored_context = f"As a {user_type}, " + data_context
@@ -115,7 +115,7 @@ def get_openai_insight(prompt, data_context, user_type):
 
 
 def get_openai_insight2(question, data_context, user_type):
-    openai.api_key = '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'
+    openai.api_key = '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'
     
     # Instructions for a nicely formatted response
     instructions = (
@@ -130,7 +130,7 @@ def get_openai_insight2(question, data_context, user_type):
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=full_prompt,
-        max_tokens=500
+        max_tokens=600
     )
     return response.choices[0].text.strip()
 
@@ -335,12 +335,13 @@ def main():
                             "The response should follow the format:"
                             "1) creative name of Business Idea"
                             "2) ethnic group you targeted"
-                            "3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information"
-                            "4) create a detailed quarterly business implementation plan using real world information about the trade area."
+                            "3) A detailed description of the business you recomended"
+                            "5) A detailed name of analysis of why you chose that group using numbers from the file and also using external information"
+                            "6) create a detailed quarterly business implementation plan using real world information about the trade area."
                             "Please provide a detailed and well-structured answer to the question. The title and Each answer should be on a new line."
                             "Ensure the response is clear, concise, and formatted in a readable manner.Also add links to each external source you used."
                         )
-                        idea = get_openai_insight("Based off the following Data Identify which ethnic group should be the best to target and create a unique business idea tailored towards that group. The response should follow the format: 1) creative name of Business Idea 2) ethnic group you targeted 3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information 4) create a detailed quarterly business implementation plan using real world information about the trade area. Please provide a detailed and well-structured answer to the question. The title and Each answer should be on a new line. Ensure the response is clear, concise, and formatted in a readable manner.Also add links to each external source you used", data_context, st.session_state.user_type)
+                        idea = get_openai_insight(business_prompt, data_context, st.session_state.user_type)
                         st.write("Business Idea:\n", idea)
                         st.session_state.generated_idea = idea
 
@@ -361,7 +362,7 @@ def main():
                 if st.sidebar.button("Generate Marketing Strategy"):
                     with st.spinner('Generating marketing strategy...'):
                         strategy_prompt = (
-                                f"Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities."
+                                f"Craft a marketing strategy that targets any specifc country in the dataset provided expecpt for the highest count population, with a special focus on the significant permanent resident communities."
                                 "Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns."
                                 "Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts."
                                 "Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate. The title and each initiative should start on a new line"
