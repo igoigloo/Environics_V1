@@ -362,7 +362,7 @@ def main():
                 if st.sidebar.button("Generate Marketing Strategy"):
                     with st.spinner('Generating marketing strategy...'):
                         strategy_prompt = (
-                                f"Craft a marketing strategy that targets any specifc country in the dataset provided expecpt for the highest count population, with a special focus on the significant permanent resident communities."
+                                f"Craft a marketing strategy that targets any specific country in the dataset provided except for the highest count population, with a special focus on the significant permanent resident communities."
                                 "Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns."
                                 "Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts."
                                 "Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate. The title and each initiative should start on a new line"
