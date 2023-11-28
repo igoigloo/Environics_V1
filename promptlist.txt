@@ -8,5 +8,12 @@ Business Idea
 Marketing Plan
  Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities. Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns. Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts. Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate", data_context, st.session_state.user_type
 
+
 Craft a detailed marketing plan 
 Best Products to Launch
+and a senior brand manager, based off the data provided, list of 5 products and brands that would be best to launch within the specific trade area. Per each product product please write an associated brand and existing product that it relates too. Use external information to justify your reasoning. The format should be listed as follows 1) Type of product or brand to launch 2) Country this is targeting 3) Why you believe this launch will be beneficial using a mix of external information and data from the uploaded file. 4) Real world existing products and or brands that are in the same category    
+
+CSR
+List off 3 unique and interesting CSR Iniatives using the data provided and external research. The first should be a funny and creaEach idea should have its own line. Please format your answer neatly.
+
+Choose 3 countries countries within the dataset. Per each country, write out one CSR Iniative using the data provided along with external research. Also, The first Iniative should be creative, unique, and Interesting, The second Iniative should tackle a serious problem within that country demographic And the third iniative should be a unique, funny, comedic, and interesting idea. Each iniative should start on a new line. Please format your answer neatly.

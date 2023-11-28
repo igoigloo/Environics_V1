@@ -135,17 +135,12 @@ def get_openai_insight2(question, data_context, user_type):
     return response.choices[0].text.strip()
 
 
-def save_idea_to_pdf(idea, user_type):
+
+def save_idea_to_pdf_BIG(idea, user_type):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
     # Replace unsupported characters
-    # Replace unsupported curly apostrophes and quotation marks
-    #idea = idea.replace("’", "'").replace('“', '"').replace('”', '"')
-    #idea = idea.replace("’", "'").replace('“', '"').replace('”', '"').replace('–', '-')
-    # Replace unsupported characters including curly apostrophes, quotation marks, en dashes, and curly single quotes
-    #idea = idea.replace("’", "'").replace('“', '"').replace('”', '"').replace('–', '-').replace('‘', "'")
-    # Replace various special characters with simpler equivalents
     replacements = {
         "’": "'",   # Curly apostrophe
         "‘": "'",   # Opening curly single quote
@@ -160,12 +155,88 @@ def save_idea_to_pdf(idea, user_type):
 
     for original, replacement in replacements.items():
         idea = idea.replace(original, replacement)
-    #FPDFUnicodeEncodingException: Character "–" at index 15 in text is outside the range of characters supported by the font used: "helvetica". Please consider using a Unicode font.
+
     pdf.cell(200, 10, txt = f"Business Insight Generator for {user_type}", ln = True, align = 'C')
     pdf.multi_cell(0, 10, txt = idea)
     pdf_output = f"business_idea_{user_type}.pdf"
     pdf.output(pdf_output)
     return pdf_output
+
+def save_idea_to_pdf_GMS(idea, user_type):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
+    # Replace unsupported characters
+    replacements = {
+        "’": "'",   # Curly apostrophe
+        "‘": "'",   # Opening curly single quote
+        "“": '"',   # Opening curly double quote
+        "”": '"',   # Closing curly double quote
+        "–": '-',   # En dash
+        "—": '-',   # Em dash
+        "…": '...', # Ellipsis
+        "•": '*',   # Bullet points
+        # Add more replacements as needed
+    }
+
+    for original, replacement in replacements.items():
+        idea = idea.replace(original, replacement)
+    pdf.cell(200, 10, txt = f"Marketing Strategy Generator for {user_type}", ln = True, align = 'C')
+    pdf.multi_cell(0, 10, txt = idea)
+    pdf_output = f"marketing_idea_{user_type}.pdf"
+    pdf.output(pdf_output)
+    return pdf_output
+
+def save_idea_to_pdf_BPG(idea, user_type):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
+    # Replace unsupported characters
+    replacements = {
+        "’": "'",   # Curly apostrophe
+        "‘": "'",   # Opening curly single quote
+        "“": '"',   # Opening curly double quote
+        "”": '"',   # Closing curly double quote
+        "–": '-',   # En dash
+        "—": '-',   # Em dash
+        "…": '...', # Ellipsis
+        "•": '*',   # Bullet points
+        # Add more replacements as needed
+    }
+
+    for original, replacement in replacements.items():
+        idea = idea.replace(original, replacement)
+    pdf.cell(200, 10, txt = f"Best Product Generator for {user_type}", ln = True, align = 'C')
+    pdf.multi_cell(0, 10, txt = idea)
+    pdf_output = f"product_idea_{user_type}.pdf"
+    pdf.output(pdf_output)
+    return pdf_output
+
+def save_idea_to_pdf_CSR(idea, user_type):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size = 12)  # Using Arial, a standard built-in font
+    # Replace unsupported characters
+    replacements = {
+        "’": "'",   # Curly apostrophe
+        "‘": "'",   # Opening curly single quote
+        "“": '"',   # Opening curly double quote
+        "”": '"',   # Closing curly double quote
+        "–": '-',   # En dash
+        "—": '-',   # Em dash
+        "…": '...', # Ellipsis
+        "•": '*',   # Bullet points
+        # Add more replacements as needed
+    }
+
+    for original, replacement in replacements.items():
+        idea = idea.replace(original, replacement)
+    pdf.cell(200, 10, txt = f"CSR Generator for {user_type}", ln = True, align = 'C')
+    pdf.multi_cell(0, 10, txt = idea)
+    pdf_output = f"CSR_idea_{user_type}.pdf"
+    pdf.output(pdf_output)
+    return pdf_output
+
 
 def decode_country_codes(data):
     country_code_mapping = {
@@ -259,11 +330,11 @@ def main():
     
                 if st.sidebar.button("Generate Business Idea"):
                     with st.spinner('Generating business idea...'):
-                        idea = get_openai_insight("Based off the following Data Identify which ethnic group should be the best to target and create a unique business idea tailored towards that group. The response should follow the format: 1) creative name of Business Idea 2) ethnic group you targeted 3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information 4) create a detailed quarterly business implementation plan using real world information about the trade area. Please provide a detailed and well-structured answer to the question. Each answer should be on a new line. Ensure the response is clear, concise, and formatted in a readable manner.Also add links to each external source you used", data_context, st.session_state.user_type)
+                        idea = get_openai_insight("Based off the following Data Identify which ethnic group should be the best to target and create a unique business idea tailored towards that group. The response should follow the format: 1) creative name of Business Idea 2) ethnic group you targeted 3) A detailed name of analysis of why you chose that group using numbers from the file and also using external information 4) create a detailed quarterly business implementation plan using real world information about the trade area. Please provide a detailed and well-structured answer to the question. The title and Each answer should be on a new line. Ensure the response is clear, concise, and formatted in a readable manner.Also add links to each external source you used", data_context, st.session_state.user_type)
                         st.write("Business Idea:", idea)
 
                         # Save to PDF
-                        pdf_file = save_idea_to_pdf(idea, st.session_state.user_type)
+                        pdf_file = save_idea_to_pdf_BIG(idea, st.session_state.user_type)
                         with open(pdf_file, "rb") as file:
                             st.download_button(
                                 label="Download Business Idea as PDF",
@@ -278,19 +349,56 @@ def main():
         
                 if st.sidebar.button("Generate Marketing Strategy"):
                     with st.spinner('Generating marketing strategy...'):
-                        strategy = get_openai_insight("Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities. Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns. Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts. Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate", data_context, st.session_state.user_type)
+                        strategy = get_openai_insight("Craft a marketing strategy that targets the diverse demographic composition detailed in the data, with a special focus on the significant permanent resident communities. Include culturally tailored messaging, appropriate media channels for these segments, and marketing tactics that resonate with their cultural values and consumption patterns. Propose ways to measure the impact and effectiveness of these culturally nuanced marketing efforts. Please list off real world things. and make sure to be specific and explain how you used the dataset given and what metrics you used to evaluate. The title and each iniative should start on a new line", data_context, st.session_state.user_type)
                         st.write("Marketing Strategy:", strategy)
+                        # Save to PDF
+                        pdf_file = save_idea_to_pdf_GMS(strategy, st.session_state.user_type)
+                        with open(pdf_file, "rb") as file:
+                            st.download_button(
+                                label="Download Marketing Strategy Idea as PDF",
+                                data=file,
+                                file_name=pdf_file,
+                                mime="application/octet-stream"
+                            )
+
+                        # Optional: Clean up the file after download
+                        os.remove(pdf_file)
 
                 if st.sidebar.button("Identify Best Products/Brands to Launch"):
                     with st.spinner('Identifying best products/brands...'):
-                        products = get_openai_insight("Analyze the demographic data to recommend products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill. Please list off real world products and brands. and make sure to explain how you used the dataset given", data_context, st.session_state.user_type)
+                        products = get_openai_insight("Analyze the demographic data to recommend 3 existing and real world products or brands that would appeal to the diverse community composition, especially focusing on the larger groups of permanent residents. Highlight potential products or services that align with the cultural preferences, lifestyle, and consumption habits of these groups. Also, consider any gaps in the current market offerings that these products or brands could fill. Please list off real world products and brands. and make sure to explain how you used the dataset given. The title and Each prouduct should start on a new line. Use external information or the web to ensure that each answer contains real world brands and or products", data_context, st.session_state.user_type)
                         st.write("Best Products/Brands:", products)
+                        # Save to PDF
+                        pdf_file = save_idea_to_pdf_BPG(products, st.session_state.user_type)
+                        with open(pdf_file, "rb") as file:
+                            st.download_button(
+                                label="Download Products Idea as PDF",
+                                data=file,
+                                file_name=pdf_file,
+                                mime="application/octet-stream"
+                            )
 
+                        # Optional: Clean up the file after download
+                        os.remove(pdf_file)
                 if st.sidebar.button("Suggest CSR Initiatives"):
                     with st.spinner('Suggesting CSR initiatives...'):
                         #List off 3 unique and interesting CSR Iniatives using the data provided and external research. Each idea should have its own line. Please format your answer neatly.
-                        csr = get_openai_insight("List off 3 unique and interesting CSR Iniatives using the data provided and external research. Each idea should have its own line. Please format your answer neatly.", data_context, st.session_state.user_type)
+                        csr = get_openai_insight("Randommly select 3 countries countries within the dataset. Per each country, write out one CSR Iniative that a candian company can implement to using the data provided along with external research. Also, The first Iniative which relates to the first country should be creative, unique, and Interesting, The second Iniative related to country two should tackle a serious problem within that country demographic And the third iniative should related to the third chosen country should be a unique, funny, comedic, and interesting idea. The title Each iniative should start on a new line. Please format your answer neatly. Each Iniative should be uniquely tailored to that specific country in terms of their cultural habits", data_context, st.session_state.user_type)
                         st.write("CSR Initiatives:", csr)
+                        # Save to PDF
+                        #Choose 3 countries countries within the dataset. Per each country, write out one CSR Iniative using the data provided along with external research. Also, The first Iniative should be creative, unique, and Interesting, The second Iniative should tackle a serious problem within that country demographic And the third iniative should be a unique, funny, comedic, and interesting idea. Each iniative should start on a new line. Please format your answer neatly.
+                        pdf_file = save_idea_to_pdf_CSR(csr, st.session_state.user_type)
+                        with open(pdf_file, "rb") as file:
+                            st.download_button(
+                                label="CSR Idea as PDF",
+                                data=file,
+                                file_name=pdf_file,
+                                mime="application/octet-stream"
+                            )
+
+                        # Optional: Clean up the file after download
+                        os.remove(pdf_file)
+                        
               #  st.sidebar.image("Logo.png")
                 if st.sidebar.button("Choropleth Map"):
                     with st.spinner('Generating Map...'):
