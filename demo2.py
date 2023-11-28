@@ -335,7 +335,7 @@ def main():
                             "The response should follow the format:"
                             "1) creative name of Business Idea"
                             "2) ethnic group you targeted"
-                            "3) A detailed description of the business you recomended"
+                            "3) A detailed description of the business you recommended"
                             "5) A detailed name of analysis of why you chose that group using numbers from the file and also using external information"
                             "6) create a detailed quarterly business implementation plan using real world information about the trade area."
                             "Please provide a detailed and well-structured answer to the question. The title and Each answer should be on a new line."
